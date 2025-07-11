@@ -1,8 +1,8 @@
-import { _decorator, Animation, Collider2D, Component, Contact2DType, Node, Scheduler } from 'cc';
+import { _decorator, Animation, Collider2D, Component, Contact2DType, IPhysics2DContact, Node, Scheduler } from 'cc';
 const { ccclass, property } = _decorator;
-
 @ccclass('enemy')
 export class enemy extends Component {
+    flag: number = 0
     @property
     hp: number = 1
     @property
@@ -22,17 +22,21 @@ export class enemy extends Component {
             console.log("注册成功");
         }
     }
-    onBeginContact() {
-        console.log('碰撞回调')
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
+        console.log('子弹击中')
         this.hp = this.hp - 1;
-        
+        otherCollider.enabled=false
+        otherCollider.destroy()
+        console.log('子弹销毁')
         if (this.hp > 0) {
+            console.log("血量健康")
             this.anima.play(this.aniHit)
         }
         else {
+            console.log("血量为0")
             this.anima.play(this.aniDown);
             this.scheduleOnce(() => {
-            this.node.destroy();
+                this.node.destroy();
             }, 1)
             this.collider.enabled = false;
         }
@@ -45,17 +49,18 @@ export class enemy extends Component {
             this.node.setPosition(p.x, p.y - deltaTime * this.speed, p.z);
         }
 
-        if (this.node.getWorldPosition().y < -520) {
-
+        if (this.node.getPosition().y < -850) {
+            console.log("超出边界")
             this.node.destroy()
         }
 
     }
     protected onDestroy(): void {
-        console.log('enemy destory')
+
         if (this.collider) {
             console.log('解除 碰撞事件')
             this.collider.off(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
+            console.log("节点销毁")
         }
     }
 }
