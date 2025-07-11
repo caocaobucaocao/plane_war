@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.AnimationClip",
-    "_name": "enemy_2_dowm",
+    "_name": "enemy_2_down",
     "_objFlags": 0,
     "__editorExtras__": {
       "embeddedPlayerGroups": []
@@ -9,9 +9,9 @@
     "_native": "",
     "sample": 60,
     "speed": 1,
-    "wrapMode": 2,
+    "wrapMode": 1,
     "enableTrsBlending": false,
-    "_duration": 1.05,
+    "_duration": 0.85,
     "_hash": 500763545,
     "_tracks": [
       {
@@ -66,9 +66,7 @@
       0.3333333333333333,
       0.5,
       0.6666666666666666,
-      0.8333333333333334,
-      1,
-      1.0333333333333334
+      0.8333333333333334
     ],
     "_values": [
       {
@@ -94,12 +92,7 @@
       {
         "__uuid__": "c9a53362-ef4f-40bc-8235-c160eb070c90@f9941",
         "__expectedType__": "cc.SpriteFrame"
-      },
-      {
-        "__uuid__": "c9a53362-ef4f-40bc-8235-c160eb070c90@f9941",
-        "__expectedType__": "cc.SpriteFrame"
-      },
-      null
+      }
     ]
   },
   {
