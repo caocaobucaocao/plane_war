@@ -8,8 +8,11 @@ export class enemy extends Component {
     @property
     speed: number = 10;
     @property(Animation)
-    down_anima: Animation
-
+    anima: Animation
+    @property(String)
+    aniHit: string = ""
+    @property(String)
+    aniDown: string = ""
     collider: Collider2D = null
     start() {
         // 注册单个碰撞体的回调函数
@@ -22,15 +25,16 @@ export class enemy extends Component {
     onBeginContact() {
         console.log('碰撞回调')
         this.hp = this.hp - 1;
-        this.down_anima.play();
-        this.scheduleOnce(() => {
-            this.collider.enabled = false;
-        }, 1)
-
-        if (this.hp <= 0) {
+        
+        if (this.hp > 0) {
+            this.anima.play(this.aniHit)
+        }
+        else {
+            this.anima.play(this.aniDown);
             this.scheduleOnce(() => {
-                this.node.destroy();
+            this.node.destroy();
             }, 1)
+            this.collider.enabled = false;
         }
 
     }

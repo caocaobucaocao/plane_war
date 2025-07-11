@@ -279,9 +279,11 @@
     },
     "hp": 1,
     "speed": 100,
-    "down_anima": {
+    "anima": {
       "__id__": 7
     },
+    "aniHit": "",
+    "aniDown": "enemy_0_down",
     "_id": ""
   },
   {
