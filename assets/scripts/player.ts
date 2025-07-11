@@ -10,7 +10,7 @@ enum BultType{
 export class player extends Component {
 
     @property
-    shotRate: number = 1
+    shotRate: number = 0.5
     @property
     shotTime:number=0
     @property(Prefab)
@@ -36,7 +36,6 @@ export class player extends Component {
     }
 
     touch_action(event: EventTouch) {
-        console.log("player be touched")
         const p = this.node.position
         let tar_pos = new Vec3(p.x + event.getDeltaX(), p.y + event.getDeltaY(), p.z)
         let ft_pos = this.node.getParent().getPosition()
@@ -64,21 +63,17 @@ export class player extends Component {
                 break
 
         }
-        console.log("update")
     }
     oneBult(dt:number){
-        console.log("single")
         this.shotTime+=dt
         if(this.shotTime>this.shotRate){
             this.shotTime=0
             let b1=instantiate(this.bullet1_prefab)
             this.bullet_container.addChild(b1)
-            console.log(this.bult_1_pos.position)
             b1.setWorldPosition(this.bult_1_pos.worldPosition)
         }
     }
     dowbleBult(dt:number){
-        console.log("double")
         this.shotTime+=dt
         if(this.shotTime>this.shotRate){
             this.shotTime=0
