@@ -25,8 +25,7 @@ export class enemy extends Component {
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         console.log('子弹击中')
         this.hp = this.hp - 1;
-        otherCollider.enabled=false
-        otherCollider.destroy()
+        otherCollider.node.destroy()
         console.log('子弹销毁')
         if (this.hp > 0) {
             console.log("血量健康")

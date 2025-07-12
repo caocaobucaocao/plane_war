@@ -79,11 +79,9 @@ export class player extends Component {
             this.shotTime=0
             let b2=instantiate(this.bullet2_prefab)
             this.bullet_container.addChild(b2)
-            console.log(this.bult_2_pos)
             b2.setWorldPosition(this.bult_2_pos.worldPosition)
             let b3=instantiate(this.bullet2_prefab)
             this.bullet_container.addChild(b3)
-            console.log(this.bult_3_pos)
             b3.setWorldPosition(this.bult_3_pos.worldPosition)
         }
     }
