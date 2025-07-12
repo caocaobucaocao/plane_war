@@ -2,7 +2,6 @@ import { _decorator, Animation, Collider2D, Component, Contact2DType, IPhysics2D
 const { ccclass, property } = _decorator;
 @ccclass('enemy')
 export class enemy extends Component {
-    flag: number = 0
     @property
     hp: number = 1
     @property
