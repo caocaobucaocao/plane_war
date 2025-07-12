@@ -706,6 +706,10 @@
       {
         "__uuid__": "5547e1d1-13f3-4230-a301-728d9378e229",
         "__expectedType__": "cc.AnimationClip"
+      },
+      {
+        "__uuid__": "7e1ad05d-7902-406c-9569-62f202bbc9c6",
+        "__expectedType__": "cc.AnimationClip"
       }
     ],
     "_defaultClip": {
@@ -732,8 +736,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 23.284,
-      "y": 23.925,
+      "x": 0.575,
+      "y": 30.178,
       "z": 0
     },
     "_lrot": {
@@ -799,8 +803,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 6.862,
-      "y": 2.78,
+      "x": -15.299,
+      "y": 9.253,
       "z": 0
     },
     "_lrot": {
@@ -866,8 +870,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 38.864,
-      "y": 2.78,
+      "x": 17.033,
+      "y": 9.253,
       "z": 0
     },
     "_lrot": {
@@ -947,7 +951,8 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "shotRate": 5,
+    "hp": 3,
+    "shotRate": 0.4,
     "shotTime": 0,
     "bullet1_prefab": {
       "__uuid__": "7dcbcc7c-67a0-49ce-9763-fe08cb84d0e0",
@@ -970,6 +975,11 @@
       "__id__": 26
     },
     "bult_type": 0,
+    "anima": {
+      "__id__": 17
+    },
+    "aniHit": "player_hit",
+    "aniDown": "player_down",
     "_id": "c1gnoLulRMwoV78aEI18oh"
   },
   {
@@ -1065,7 +1075,7 @@
     "_enabled": true,
     "__prefab": null,
     "tag": 0,
-    "_group": 1,
+    "_group": 8,
     "_density": 1,
     "_sensor": true,
     "_friction": 0.2,
@@ -1092,10 +1102,10 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "enabledContactListener": false,
+    "enabledContactListener": true,
     "bullet": false,
     "awakeOnLoad": true,
-    "_group": 1,
+    "_group": 8,
     "_type": 1,
     "_allowSleep": false,
     "_gravityScale": 1,

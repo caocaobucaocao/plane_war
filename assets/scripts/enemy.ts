@@ -1,4 +1,5 @@
-import { _decorator, Animation, Collider2D, Component, Contact2DType, IPhysics2DContact, Node, Scheduler } from 'cc';
+import { _decorator, Animation, CCString, Collider2D, Component, Contact2DType, IPhysics2DContact, Node, Scheduler } from 'cc';
+import { bullet } from './bullet';
 const { ccclass, property } = _decorator;
 @ccclass('enemy')
 export class enemy extends Component {
@@ -9,9 +10,9 @@ export class enemy extends Component {
     @property(Animation)
     anima: Animation
     @property(String)
-    aniHit: string = ""
+    aniHit: String = ""
     @property(String)
-    aniDown: string = ""
+    aniDown: String = ""
     collider: Collider2D = null
     start() {
         // 注册单个碰撞体的回调函数
@@ -24,15 +25,18 @@ export class enemy extends Component {
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         console.log('子弹击中')
         this.hp = this.hp - 1;
-        otherCollider.node.destroy()
-        console.log('子弹销毁')
+        if (otherCollider.getComponent(bullet)) {
+            console.log('子弹销毁')
+            otherCollider.node.destroy()
+        }
+        
         if (this.hp > 0) {
             console.log("血量健康")
-            this.anima.play(this.aniHit)
+            this.anima.play(this.aniHit.toString())
         }
         else {
             console.log("血量为0")
-            this.anima.play(this.aniDown);
+            this.anima.play(this.aniDown.toString());
             this.scheduleOnce(() => {
                 this.node.destroy();
             }, 1)
