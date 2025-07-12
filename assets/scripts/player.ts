@@ -52,9 +52,7 @@ export class player extends Component {
         console.log('player血量降低:' + this.hp)
         if (this.hp > 0) {
             console.log("player血量健康")
-            this.scheduleOnce(() => {
-               this.anima.play(this.aniHit)
-            }, 1)
+            this.anima.play(this.aniHit)
         } else {
             console.log("player血量为0")
             this.anima.play(this.aniDown);
