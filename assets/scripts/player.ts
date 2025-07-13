@@ -1,9 +1,11 @@
-import { _decorator, Animation, CCInteger, CCString, Collider2D, Component, Contact2DType, EventTouch, Input, input, instantiate, IPhysics2DContact, log, Node, Prefab, Vec3 } from 'cc';
+import { _decorator, Animation, CCInteger, CCString, Collider2D, Component, Contact2DType, EventTouch, Input, input, instantiate, IPhysics2DContact, Node, Prefab, Sprite, Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 import { Logger } from './util/log';
+import { reward, RewardType } from './reward';
 enum BultType {
-    "one",
-    "double",
+    zero,
+    one,
+    double,
 };
 
 @ccclass('player')
@@ -26,8 +28,7 @@ export class player extends Component {
     bult_3_pos = null
     @property(Node)
     bullet_container: Node = null
-    @property()
-    bult_type: BultType = BultType.one;
+    bult_type: BultType = null
     collider: Collider2D = null
     @property(Animation)
     anima: Animation
@@ -42,6 +43,9 @@ export class player extends Component {
     isVincible: boolean = false
     // 无敌时间内碰撞计数
     invicibleCollisionCount = 0
+    doubleShotTime: number = 0
+    @property
+    doubleShotTimeCountD = 5
     protected onLoad(): void {
         Logger.info("player 加载")
         input.on(Input.EventType.TOUCH_MOVE, this.touch_action, this)
@@ -54,22 +58,44 @@ export class player extends Component {
 
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         Logger.info('碰撞开始', { 无敌时间内碰撞: this.invicibleCollisionCount + 1, 血量: this.hp, 状态: this.isVincible, 无敌持续时间: this.invincible_count, 截止: this.invincible_deadline })
-        this.invicibleCollisionCount += 1
+        const reward_ex = otherCollider.getComponent(reward)
+        if (reward_ex) {
+            Logger.info("奖励碰撞", { 奖励类型: reward_ex.rewardType.toString() })
+            switch (reward_ex.rewardType) {
+                case RewardType.One:
+                    this.bult_type = BultType.double
+                    this.doubleShotTime = 0
+                    // reward_ex.enabled=false
+                    // reward_ex.getComponent(Sprite).enabled = false
+                    reward_ex.node.destroy()
+                    break;
+                case RewardType.two:
+                    break;
+            }
+        } else {
+            this.enemyContact();
+        }
+
+        Logger.info('碰撞结束', { 无敌时间内碰撞: this.invicibleCollisionCount, 血量: this.hp, 状态: this.isVincible, 无敌持续时间: this.invincible_count, 截止: this.invincible_deadline })
+    }
+    private enemyContact() {
+        this.invicibleCollisionCount += 1;
         if (!this.isVincible) {
-            this.isVincible = true
-            this.invincible_count = 0
+            this.isVincible = true;
+            this.invincible_count = 0;
             this.hp = this.hp - 1;
             if (this.hp > 0) {
-                this.anima.play(this.aniHit)
+                this.anima.play(this.aniHit);
             } else {
+                this.bult_type = BultType.zero;
                 this.anima.play(this.aniDown);
                 this.scheduleOnce(() => {
                     this.node.destroy();
-                }, 1)
+                }, 1);
             }
         }
-        Logger.info('碰撞结束', { 无敌时间内碰撞: this.invicibleCollisionCount, 血量: this.hp, 状态: this.isVincible, 无敌持续时间: this.invincible_count, 截止: this.invincible_deadline })
     }
+
     protected onDestroy(): void {
         Logger.info("player 碰撞事件注销");
         input.off(Input.EventType.TOUCH_MOVE, this.touch_action, this)
@@ -101,11 +127,17 @@ export class player extends Component {
         Logger.info("飞机触摸结束", { 血量: this.hp, 位置: res_pos, })
     }
     protected update(dt: number): void {
+        this.doubleShotTime += dt
+        if (this.doubleShotTime > +this.doubleShotTimeCountD) {
+            this.bult_type = BultType.one
+        }
         Logger.info('player更新', {
             '状态': this.isVincible,
             无敌持续时间: this.invincible_count, 截止: this.invincible_deadline
         });
         switch (this.bult_type) {
+            case BultType.zero:
+                break
             case BultType.one:
                 this.oneBult(dt)
                 break

@@ -4,6 +4,7 @@ import { Logger } from './util/log';
 const { ccclass, property } = _decorator;
 @ccclass('enemy')
 export class enemy extends Component {
+
     @property
     hp: number = 1
     @property
@@ -15,19 +16,21 @@ export class enemy extends Component {
     @property(CCString)
     aniDown = ""
     collider: Collider2D = null
+
     start() {
         // 注册单个碰撞体的回调函数
         this.collider = this.getComponent(Collider2D);
         if (this.collider) {
             this.collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-            Logger.info("敌人", this)
+            Logger.info("撞击事件注册")
         }
     }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
-        Logger.info("子弹击中事件处理开始", this)
+        Logger.info("撞击事件处理开始")
         this.hp = this.hp - 1;
         if (otherCollider.getComponent(bullet)) {
-            otherCollider.enabled = false
+            Logger.info("enemy与子弹碰撞")
+            otherCollider.node.destroy()
         }
 
         if (this.hp > 0) {
@@ -40,7 +43,7 @@ export class enemy extends Component {
             }, 1)
             this.collider.enabled = false;
         }
-        Logger.info("子弹击中事件处理结束", this)
+        Logger.info("子弹击中事件处理结束")
     }
 
     update(deltaTime: number) {
@@ -60,6 +63,9 @@ export class enemy extends Component {
         if (this.collider) {
             this.collider.off(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
         }
+    }
+    toString(): string {
+        return `enemy(血量=${this.hp}, 速度=${this.speed})`;
     }
 }
 
