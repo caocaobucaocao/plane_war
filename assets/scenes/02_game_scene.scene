@@ -951,8 +951,8 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "hp": 100,
-    "shotRate": 100,
+    "hp": 3,
+    "shotRate": 0.5,
     "shotTime": 0,
     "bullet1_prefab": {
       "__uuid__": "7dcbcc7c-67a0-49ce-9763-fe08cb84d0e0",
@@ -1000,8 +1000,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -65.086,
-      "y": -421.937,
+      "x": -76.785,
+      "y": -352.093,
       "z": 0
     },
     "_lrot": {
