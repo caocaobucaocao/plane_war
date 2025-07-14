@@ -28,7 +28,7 @@ export class player extends Component {
     bult_3_pos = null
     @property(Node)
     bullet_container: Node = null
-    bult_type: BultType = null
+    bult_type: BultType = BultType.one
     collider: Collider2D = null
     @property(Animation)
     anima: Animation
@@ -60,24 +60,26 @@ export class player extends Component {
         Logger.info('碰撞开始', { 无敌时间内碰撞: this.invicibleCollisionCount + 1, 血量: this.hp, 状态: this.isVincible, 无敌持续时间: this.invincible_count, 截止: this.invincible_deadline })
         const reward_ex = otherCollider.getComponent(reward)
         if (reward_ex) {
-            Logger.info("奖励碰撞", { 奖励类型: reward_ex.rewardType.toString() })
-            switch (reward_ex.rewardType) {
-                case RewardType.One:
-                    this.bult_type = BultType.double
-                    this.doubleShotTime = 0
-                    // reward_ex.enabled=false
-                    // reward_ex.getComponent(Sprite).enabled = false
-                    reward_ex.node.destroy()
-                    break;
-                case RewardType.two:
-                    break;
-            }
+            this.reward_contact(reward_ex);
         } else {
             this.enemyContact();
         }
 
         Logger.info('碰撞结束', { 无敌时间内碰撞: this.invicibleCollisionCount, 血量: this.hp, 状态: this.isVincible, 无敌持续时间: this.invincible_count, 截止: this.invincible_deadline })
     }
+    private reward_contact(reward_ex: reward) {
+        Logger.info("奖励碰撞", { 奖励类型: reward_ex.rewardType.toString() });
+        switch (reward_ex.rewardType) {
+            case RewardType.One:
+                this.bult_type = BultType.double;
+                this.doubleShotTime = 0;
+                break;
+            case RewardType.two:
+                break;
+        }
+        reward_ex.getComponent(Sprite).enabled = false;
+    }
+
     private enemyContact() {
         this.invicibleCollisionCount += 1;
         if (!this.isVincible) {
@@ -127,38 +129,51 @@ export class player extends Component {
         Logger.info("飞机触摸结束", { 血量: this.hp, 位置: res_pos, })
     }
     protected update(dt: number): void {
-        this.doubleShotTime += dt
-        if (this.doubleShotTime > +this.doubleShotTimeCountD) {
-            this.bult_type = BultType.one
-        }
         Logger.info('player更新', {
             '状态': this.isVincible,
-            无敌持续时间: this.invincible_count, 截止: this.invincible_deadline
+            无敌持续时间: this.invincible_count, 截止: this.invincible_deadline, 双发时间计时: this.doubleShotTime
+            , 双发截至时间: this.doubleShotTimeCountD
         });
-        switch (this.bult_type) {
-            case BultType.zero:
-                break
-            case BultType.one:
-                this.oneBult(dt)
-                break
-            case BultType.double:
-                this.dowbleBult(dt)
-                break
-        }
-        Logger.info("子弹", { 类型: this.bult_type })
-        if (this.isVincible) {
-            this.invincible_count = this.invincible_count + dt
-        }
-        if (this.invincible_count >= this.invincible_deadline) {
-            this.isVincible = false
-            this.invicibleCollisionCount = 0
-        }
+        this.doubleUpdate(dt);
+        this.invicibleUpdate(dt);
+        this.bultTypeSwitch(dt);
+
         Logger.info('player更新', {
             '状态': this.isVincible,
             无敌持续时间: this.invincible_count, 截止: this.invincible_deadline
         });
     }
-    oneBult(dt: number) {
+    private bultTypeSwitch(dt: number) {
+        switch (this.bult_type) {
+            case BultType.zero:
+                break;
+            case BultType.one:
+                this.oneBultSpawn(dt);
+                break;
+            case BultType.double:
+                this.dowbleBultSpawn(dt);
+                break;
+        }
+    }
+
+    private doubleUpdate(dt: number) {
+        this.doubleShotTime += dt;
+        if (this.doubleShotTime > this.doubleShotTimeCountD) {
+            this.bult_type = BultType.one;
+        }
+    }
+
+    private invicibleUpdate(dt: number) {
+        if (this.isVincible) {
+            this.invincible_count = this.invincible_count + dt;
+        }
+        if (this.invincible_count >= this.invincible_deadline) {
+            this.isVincible = false;
+            this.invicibleCollisionCount = 0;
+        }
+    }
+
+    oneBultSpawn(dt: number) {
         this.shotTime += dt
         Logger.info("子弹", { 已发射时间: this.shotTime, 发射间隔: this.shotRate })
         if (this.shotTime > this.shotRate) {
@@ -169,7 +184,7 @@ export class player extends Component {
         }
         Logger.info("子弹", { 已发射时间: this.shotTime, 发射间隔: this.shotRate })
     }
-    dowbleBult(dt: number) {
+    dowbleBultSpawn(dt: number) {
         this.shotTime += dt
         Logger.info("子弹", { 已发射时间: this.shotTime, 发射间隔: this.shotRate })
         if (this.shotTime > this.shotRate) {
@@ -182,6 +197,9 @@ export class player extends Component {
             b3.setWorldPosition(this.bult_3_pos.worldPosition)
         }
         Logger.info("子弹", { 已发射时间: this.shotTime, 发射间隔: this.shotRate })
+    }
+    toString() {
+
     }
 }
 

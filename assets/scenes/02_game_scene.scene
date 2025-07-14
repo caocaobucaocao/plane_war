@@ -107,8 +107,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 239.99999999999997,
-      "y": 424.99999999999994,
+      "x": 240,
+      "y": 425.00000000000006,
       "z": 0
     },
     "_lrot": {
@@ -193,7 +193,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 424.99999999999994,
+    "_orthoHeight": 425,
     "_near": 0,
     "_far": 2000,
     "_color": {
@@ -961,7 +961,7 @@
     "_enabled": true,
     "__prefab": null,
     "hp": 3,
-    "shotRate": 0.5,
+    "shotRate": 1,
     "shotTime": 0,
     "bullet1_prefab": {
       "__uuid__": "7dcbcc7c-67a0-49ce-9763-fe08cb84d0e0",
@@ -983,7 +983,6 @@
     "bullet_container": {
       "__id__": 26
     },
-    "bult_type": 1,
     "anima": {
       "__id__": 17
     },
@@ -991,6 +990,7 @@
     "aniDown": "player_down",
     "invincible_deadline": 1,
     "invincible_count": 0,
+    "doubleShotTimeCountD": 5,
     "_id": "c1gnoLulRMwoV78aEI18oh"
   },
   {
@@ -1568,12 +1568,12 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "reward_1_spawn_rate": 3,
+    "reward_1_spawn_rate": 10,
     "reward_1_prefab": {
       "__uuid__": "70ad6f91-2c25-4a5c-a98f-943c1d0c8de9",
       "__expectedType__": "cc.Prefab"
     },
-    "reward_2_spawn_rate": 5,
+    "reward_2_spawn_rate": 30,
     "reward_2_prefab": {
       "__uuid__": "bec0cab0-94e0-4387-8828-4c270c7b060d",
       "__expectedType__": "cc.Prefab"
@@ -1592,8 +1592,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 479.99999999999994,
-      "height": 849.9999999999998
+      "width": 480,
+      "height": 850
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",

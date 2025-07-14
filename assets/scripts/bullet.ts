@@ -14,13 +14,17 @@ export class bullet extends Component {
         Logger.info('子弹开始更新', {
             位置: this.node.position
         })
-        const pos = this.node.position
-        this.node.setPosition(this.node.x, this.node.y + this.speed * deltaTime, this.node.z)
+        this.updatePos(deltaTime);
+    }
+
+    private updatePos(deltaTime: number) {
+        const pos = this.node.position;
+        this.node.setPosition(this.node.x, this.node.y + this.speed * deltaTime, this.node.z);
         Logger.info('子弹更新位置', {
             位置: this.node.position
-        })
+        });
         if (pos.y > 780) {
-            this.node.destroy()
+            this.node.destroy();
         }
     }
 }

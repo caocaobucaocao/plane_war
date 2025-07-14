@@ -17,14 +17,18 @@ export class reward extends Component {
     }
 
     update(deltaTime: number) {
+        this.updatePos(deltaTime);
+    }
+
+    private updatePos(deltaTime: number) {
         const p = this.node.getPosition();
-        Logger.info("奖励开始更新", { 速度: this.speed, 位置: p })
-        let tar_y = p.y - deltaTime * this.speed
+        Logger.info("奖励开始更新", { 速度: this.speed, 位置: p });
+        let tar_y = p.y - deltaTime * this.speed;
         this.node.setPosition(p.x, tar_y, p.z);
-        Logger.info("奖励结束更新", { 位置: p })
+        Logger.info("奖励结束更新", { 位置: p });
         if (this.node.getPosition().y < -850) {
-            Logger.info("奖励销毁", { 位置: p })
-            this.node.destroy()
+            Logger.info("奖励销毁", { 位置: p });
+            this.node.destroy();
         }
     }
 }
