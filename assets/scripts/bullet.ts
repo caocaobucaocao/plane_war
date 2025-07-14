@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Collider2D, Component, Node, Sprite } from 'cc';
 import { Logger } from './util/log';
 const { ccclass, property } = _decorator;
 
@@ -24,7 +24,8 @@ export class bullet extends Component {
             位置: this.node.position
         });
         if (pos.y > 780) {
-            this.node.destroy();
+            this.getComponent(Sprite).enabled = false;
+            this.getComponent(Collider2D).enabled = false;
         }
     }
 }

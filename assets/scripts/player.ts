@@ -70,6 +70,7 @@ export class player extends Component {
     }
     private reward_contact(reward_ex: reward) {
         Logger.info("奖励碰撞", { 奖励类型: reward_ex.rewardType.toString() });
+        reward_ex.node.destroy()
         switch (reward_ex.rewardType) {
             case RewardType.One:
                 this.bult_type = BultType.double;
@@ -79,8 +80,6 @@ export class player extends Component {
                 GameManager.getIns().addBumb()
                 break;
         }
-        reward_ex.getComponent(Sprite).enabled = false;
-        reward_ex.getComponent(Collider2D).enabled = false;
     }
 
     private enemyContact() {
