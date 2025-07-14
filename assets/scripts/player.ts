@@ -2,6 +2,7 @@ import { _decorator, Animation, CCInteger, CCString, Collider2D, Component, Cont
 const { ccclass, property } = _decorator;
 import { Logger } from './util/log';
 import { reward, RewardType } from './reward';
+import { GameManager } from './GameManager';
 enum BultType {
     zero,
     one,
@@ -75,9 +76,11 @@ export class player extends Component {
                 this.doubleShotTime = 0;
                 break;
             case RewardType.two:
+                GameManager.getIns().addBumb()
                 break;
         }
         reward_ex.getComponent(Sprite).enabled = false;
+        reward_ex.getComponent(Collider2D).enabled = false;
     }
 
     private enemyContact() {
