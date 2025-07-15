@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, Node } from 'cc';
+import { _decorator, Component, director, instantiate, Node } from 'cc';
 import { Logger } from './util/log';
 const { ccclass, property } = _decorator;
 import { EventTarget } from 'cc';
@@ -50,6 +50,14 @@ export class GameManager extends Component {
     public strike(value: number) {
         Logger.info("击毁", { 得分: value })
         GameManager.eventManager.emit("STRICK_ENEMY", value)
+    }
+    public onPause() {
+        Logger.info("游戏暂停")
+        director.pause()
+    }
+    public onResume() {
+        Logger.info("游戏回复")
+        director.resume()
     }
 }
 

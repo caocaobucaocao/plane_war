@@ -47,6 +47,7 @@ export class player extends Component {
     doubleShotTime: number = 0
     @property
     doubleShotTimeCountD = 5
+    private pause: boolean = false
     protected onLoad(): void {
         Logger.info("player 加载")
         input.on(Input.EventType.TOUCH_MOVE, this.touch_action, this)
@@ -114,26 +115,30 @@ export class player extends Component {
     }
 
     touch_action(event: EventTouch) {
+        if (this.pause) {
+            return;
+        } else {
+            if (this.hp <= 0) return;
+            const p = this.node.position
+            let tar_pos = new Vec3(p.x + event.getDeltaX(), p.y + event.getDeltaY(), p.z)
+            Logger.info("飞机触摸开始", { 血量: this.hp, 位置: p, 目标位置: tar_pos })
+            if (tar_pos.x < -186) {
+                tar_pos.x = -186
+            }
+            if (tar_pos.x > 193)
+                tar_pos.x = 193
 
-        if (this.hp <= 0) return;
-        const p = this.node.position
-        let tar_pos = new Vec3(p.x + event.getDeltaX(), p.y + event.getDeltaY(), p.z)
-        Logger.info("飞机触摸开始", { 血量: this.hp, 位置: p, 目标位置: tar_pos })
-        if (tar_pos.x < -186) {
-            tar_pos.x = -186
+            if (tar_pos.y < -368) {
+                tar_pos.y = -368
+            }
+            if (tar_pos.y > 376) {
+                tar_pos.y = 376
+            }
+            let res_pos = (tar_pos.x, tar_pos.y + event.getDeltaY(), p.z)
+            this.node.setPosition(tar_pos.x, tar_pos.y + event.getDeltaY(), p.z)
+            Logger.info("飞机触摸结束", { 血量: this.hp, 位置: res_pos, })
         }
-        if (tar_pos.x > 193)
-            tar_pos.x = 193
 
-        if (tar_pos.y < -368) {
-            tar_pos.y = -368
-        }
-        if (tar_pos.y > 376) {
-            tar_pos.y = 376
-        }
-        let res_pos = (tar_pos.x, tar_pos.y + event.getDeltaY(), p.z)
-        this.node.setPosition(tar_pos.x, tar_pos.y + event.getDeltaY(), p.z)
-        Logger.info("飞机触摸结束", { 血量: this.hp, 位置: res_pos, })
     }
     protected update(dt: number): void {
         Logger.info('player更新', {
@@ -205,8 +210,17 @@ export class player extends Component {
         }
         Logger.info("子弹", { 已发射时间: this.shotTime, 发射间隔: this.shotRate })
     }
-    toString() {
-
+    onPaues() {
+        if (!this.pause) {
+            Logger.info("player_pause")
+            this.pause = true;
+        }
+    }
+    onResume() {
+        if (this.pause) {
+            Logger.info("player_resume")
+            this.pause = false;
+        }
     }
 }
 
