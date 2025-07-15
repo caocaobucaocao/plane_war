@@ -46,6 +46,11 @@ export class GameManager extends Component {
         Logger.info("受伤", { 生命值: value })
         GameManager.eventManager.emit("GET_HURT", value)
     }
+
+    public strike(value: number) {
+        Logger.info("击毁", { 得分: value })
+        GameManager.eventManager.emit("STRICK_ENEMY", value)
+    }
 }
 
 

@@ -13,7 +13,7 @@ export class start_btn_click extends Component {
     }
     public onClick() {
         Logger.info("to_02_game_scene");
-        director.loadScene("02_game_scene")
+        director.loadScene("01_start")
     }
 }
 

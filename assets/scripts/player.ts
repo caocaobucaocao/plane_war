@@ -1,4 +1,4 @@
-import { _decorator, Animation, CCInteger, CCString, Collider2D, Component, Contact2DType, EventTouch, Input, input, instantiate, IPhysics2DContact, Node, Prefab, Sprite, Vec3 } from 'cc';
+import { _decorator, Animation, CCInteger, CCString, Collider2D, Component, Contact2DType, director, EventTouch, Input, input, instantiate, IPhysics2DContact, Node, Prefab, resources, Sprite, Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 import { Logger } from './util/log';
 import { reward, RewardType } from './reward';
@@ -55,7 +55,7 @@ export class player extends Component {
             this.collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
             Logger.info("player 注册碰撞事件成功")
         }
-       
+
     }
     protected start(): void {
         Logger.info("player-start")
@@ -99,6 +99,7 @@ export class player extends Component {
                 this.anima.play(this.aniDown);
                 this.scheduleOnce(() => {
                     this.node.destroy();
+                    director.loadScene('01_start');
                 }, 1);
             }
         }

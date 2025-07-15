@@ -1,6 +1,7 @@
 import { _decorator, Animation, CCString, Collider2D, Component, Contact2DType, IPhysics2DContact, Node, Scheduler } from 'cc';
 import { bullet } from './bullet';
 import { Logger } from './util/log';
+import { GameManager } from './GameManager';
 const { ccclass, property } = _decorator;
 @ccclass('enemy')
 export class enemy extends Component {
@@ -16,7 +17,8 @@ export class enemy extends Component {
     @property(CCString)
     aniDown = ""
     collider: Collider2D = null
-
+    @property
+    score: number = 10
     start() {
         // 注册单个碰撞体的回调函数
         this.collider = this.getComponent(Collider2D);
@@ -37,13 +39,14 @@ export class enemy extends Component {
             this.anima.play(this.aniHit.toString())
         }
         else {
+            GameManager.getIns().strike(this.score)
             this.anima.play(this.aniDown.toString());
             this.scheduleOnce(() => {
                 this.node.destroy();
             }, 1)
             this.collider.enabled = false;
         }
-        Logger.info("子弹击中事件处理结束")
+        Logger.info("撞击事件处理结束")
     }
 
     update(deltaTime: number) {

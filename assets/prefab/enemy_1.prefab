@@ -288,6 +288,7 @@
     },
     "aniHit": "enemy_1_hit",
     "aniDown": "enemy_1_down",
+    "score": 3,
     "_id": ""
   },
   {
