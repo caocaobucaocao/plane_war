@@ -39,6 +39,13 @@ export class GameManager extends Component {
         this.bumbNumber += 1
         GameManager.eventManager.emit("ADD_BOMB", this.bumbNumber)
     }
+    /**
+     * getHurt
+     */
+    public getHurt(value: number) {
+        Logger.info("受伤", { 生命值: value })
+        GameManager.eventManager.emit("GET_HURT", value)
+    }
 }
 
 

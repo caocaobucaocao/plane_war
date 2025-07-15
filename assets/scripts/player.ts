@@ -55,8 +55,11 @@ export class player extends Component {
             this.collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
             Logger.info("player 注册碰撞事件成功")
         }
+       
     }
-
+    protected start(): void {
+        Logger.info("player-start")
+    }
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         Logger.info('碰撞开始', { 无敌时间内碰撞: this.invicibleCollisionCount + 1, 血量: this.hp, 状态: this.isVincible, 无敌持续时间: this.invincible_count, 截止: this.invincible_deadline })
         const reward_ex = otherCollider.getComponent(reward)
@@ -88,6 +91,7 @@ export class player extends Component {
             this.isVincible = true;
             this.invincible_count = 0;
             this.hp = this.hp - 1;
+            GameManager.getIns().getHurt(this.hp)
             if (this.hp > 0) {
                 this.anima.play(this.aniHit);
             } else {
